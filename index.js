@@ -41,10 +41,17 @@ async function handleRequest(request) {
 		//build response
 		var response = {
 			title: data.videoDetails.title,
-			video: formats[0],
-			thumbnail: data.videoDetails.thumbnail.thumbnails[0]
+			video: formats[0].url,
+			thumbnail: data.videoDetails.thumbnail.thumbnails[0].url
 		};
-		const init = { headers: { 'content-type': 'application/json' } };
+		const init = {
+			headers: {
+				'content-type': 'application/json',
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': 'GET',
+				'Access-Control-Allow-Headers': 'Content-Type'
+			}
+		};
 		return new Response(JSON.stringify(response), init);
 	} else {
 		return new Response('Unable to determine URL', { status: 500 });
