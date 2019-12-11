@@ -1,7 +1,17 @@
+//headers used for every response
+const init = {
+	headers: {
+		'content-type': 'application/json',
+		'Access-Control-Allow-Origin': '*',
+		'Access-Control-Allow-Methods': 'GET',
+		'Access-Control-Allow-Headers': 'Content-Type'
+	}
+};
+
 async function handleRequest(request) {
 	var videoID = new URL(request.url).searchParams.get('id');
 	if (!videoID) {
-		return new Response('Video id required', { status: 400 });
+		return new Response(JSON.stringify({ error: 'Video id required' }), init, { status: 400 });
 	}
 
 	//construct youtube url to fetch
@@ -13,7 +23,7 @@ async function handleRequest(request) {
 	//determine if the video is valid
 	var isValid = text.split('ytplayer.config = ')[1];
 	if (!isValid) {
-		return new Response('Invalid video id', { status: 400 });
+		return new Response(JSON.stringify({ error: 'Invalid video id' }), init);
 	}
 
 	//TODO - better check if valid video id
@@ -44,17 +54,9 @@ async function handleRequest(request) {
 			video: formats[0].url,
 			thumbnail: data.videoDetails.thumbnail.thumbnails[0].url
 		};
-		const init = {
-			headers: {
-				'content-type': 'application/json',
-				'Access-Control-Allow-Origin': '*',
-				'Access-Control-Allow-Methods': 'GET',
-				'Access-Control-Allow-Headers': 'Content-Type'
-			}
-		};
 		return new Response(JSON.stringify(response), init);
 	} else {
-		return new Response('Unable to determine URL', { status: 500 });
+		return new Response(JSON.stringify({ error: 'Unable to determine URL due to youtube cipher' }), init);
 	}
 }
 
