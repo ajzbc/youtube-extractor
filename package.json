@@ -1,0 +1,7 @@
+{
+	"name": "serverless-youtube-extractor",
+	"main": "index.js",
+	"private": true,
+	"version": "1.0.0",
+	"author": "andrewjazbec <hello@ajzbc.com>"
+}
