@@ -10,7 +10,7 @@ app.all("/", async (c) => {
 	const { id } = c.req.query();
 
 	if (!id) {
-		return c.redirect("https://andrewjazbec.com"); // TODO: update to demo site
+		return c.redirect("https://github.com/ajzbc/youtube-extractor");
 	}
 
 	const videoID = z.string().parse(id);
